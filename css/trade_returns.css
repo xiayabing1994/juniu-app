@@ -1,0 +1,48 @@
+header {
+	width: 100%;
+	height: 75px !important;   
+	background: url(../img/login.png) no-repeat;
+	background-size:  cover;
+	box-shadow: none !important;
+	padding-top: 33px; 
+}
+.mui-content{
+	padding-top: 75px !important;
+}
+
+
+header a {
+	color: #fff;
+}
+
+.mui-title {
+	color: #fff!important;
+}
+
+.no_info {
+	width: 50%;
+	margin: 20% auto;
+	text-align: center;
+	z-index: 99;
+}
+
+.no_info img {
+	width: 100%;
+}
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+	border: 0;
+}
+.mui-segmented-control.mui-segmented-control-inverted{
+	width: 60% !important;
+	margin: 10px auto;
+}
+.mui-segmented-control .mui-control-item{
+	line-height: 25px;
+	background: #fff;
+	font-size: 14px;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+	background: #383747;
+	color: #fff;
+}

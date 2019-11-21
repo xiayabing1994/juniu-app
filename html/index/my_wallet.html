@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/my_goldCoin.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_812297_z1nllq4etb.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的钱包</h1>
+			<span class="iconfont icon-wenhao"></span>
+		</header>
+		<div class="mui-content">
+			<img src="../../img/ic_edit_creditcard.png" width="100%"/>
+			<div class="balance">
+				<ul>
+					<li>
+						<p class="total_money user_integral">0</p>
+						<p>累计积分</p>
+					</li>
+					<li>
+						<p class="total_money user_total_integral">0</p>
+						<p>我的余额</p>
+					</li>
+					<li style="	text-align: right;">
+						<span class="gold_mx">提现</span>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+				var tokens = getToken();
+				getToken();
+				//plus.nativeUI.showWaiting("安全检测中，请等待");
+				mui.ajax({
+						url: site_app + "/api/my/info",
+						type: "post",
+						data: {
+							token: tokens
+						},
+						dataType: "json",
+						success: function(e) {
+							if(e.error == 0) {
+								if(e.data.user_isactivation == 0) {
+									$(".user_integral").html(e.data.user_total_integral);
+									$(".user_total_integral").html(e.data.user_moeny);
+								} else {
+									mui.alert('请激活账户', '提示', '', function() {
+										mui.openWindow({
+											url: "../user/activation.html",
+											id: "activation",
+											show: {
+												autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											},
+											waiting: {
+												//autoShow: true, //自动显示等待框，默认为true
+												//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+											}
+										})
+									}, 'div');
+								}
+
+							}
+						}
+					});
+				$(".gold_mx").click(function() {
+					mui.openWindow({
+						url: "../user/withdraw_cash.html",
+						id: "withdraw_cash",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						waiting: {
+							//autoShow: true, //自动显示等待框，默认为true
+							//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+						}
+					})
+				});
+				$(".icon-wenhao").click(function(){
+					mui.openWindow({
+						url: "../user/help_center.html",
+						id: "help_center",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						waiting: {
+							//autoShow: true, //自动显示等待框，默认为true
+							//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+						}
+					})
+				})
+
+				$("body").ajaxStop(function() {
+					plus.nativeUI.closeWaiting();
+				});
+				 
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/my_shareProfit.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav head_tbg">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">钱包</h1>
+		</header>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				mui.init({
+					gestureConfig: {
+						doubletap: true
+					},
+					subpages: [{
+						url: 'my_shareProfit.html',
+						id: 'my_shareProfit',
+						styles: {
+							top: headerH,
+							bottom: '0px',
+						}
+					}]
+				});
+				var self = plus.webview.currentWebview();
+				var tokens = getToken();
+				getToken();
+				window.addEventListener('login', function(e) { //执行刷新
+					location.reload();
+				});
+			})
+		</script>
+	</body>
+
+</html>

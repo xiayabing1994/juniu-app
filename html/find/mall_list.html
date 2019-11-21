@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop_mall.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">品牌折扣</h1>
+		</header>
+		<div class="mui-content" style="padding-top: 55px;">
+			<ul class="product_list">
+				<li>
+					<div class="product_img">
+						<img src="../../img/product-img-2.jpg" />
+					</div>
+					<p class="product_name">移动电源</p>
+					<p class="product_js">这是一个移动电源这是一个移动电源这是一个移动电源这是一个移动电源</p>
+					<p class="money">399元/500积分</p>
+				</li>
+				<li>
+					<div class="product_img">
+						<img src="../../img/product-img-2.jpg" />
+					</div>
+					<p class="product_name">移动电源</p>
+					<p class="product_js">这是一个移动电源这是一个移动电源这是一个移动电源这是一个移动电源</p>
+					<p class="money">399元/500积分</p>
+				</li>
+				<li>
+					<div class="product_img">
+						<img src="../../img/product-img-2.jpg" />
+					</div>
+					<p class="product_name">移动电源</p>
+					<p class="product_js">这是一个移动电源这是一个移动电源这是一个移动电源这是一个移动电源</p>
+					<p class="money">399元/500积分</p>
+				</li>
+				<li>
+					<div class="product_img">
+						<img src="../../img/product-img-2.jpg" />
+					</div>
+					<p class="product_name">移动电源</p>
+					<p class="product_js">这是一个移动电源这是一个移动电源这是一个移动电源这是一个移动电源</p>
+					<p class="money">399元/500积分</p>
+				</li>
+				<div class="clear"></div>
+			</ul>
+		</div>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+			<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+				$(".product_list li").click(function() {
+					mui.openWindow({
+						url: "../find/product_details.html",
+						id: "product_details",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						createNew:true,
+						waiting: {
+							//autoShow: true, //自动显示等待框，默认为true
+							//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+						}
+					})
+				})
+				plus.nativeUI.closeWaiting();
+				 
+			})
+		</script>
+	</body>
+
+</html>

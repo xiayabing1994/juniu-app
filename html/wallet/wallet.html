@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/wallet.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_812297_z1nllq4etb.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class=""></a>
+			<h1 class="mui-title">分享</h1>
+		</header>
+		<div class="mui-content">
+			<img src="../../img/wallet.png" style="width: 100%;display: block;"/>
+			<div class="mui-table-view wallet_md">
+				<div class="list_head">
+					<p class="title">
+						<img src="../../img/makemoney_redpacket_icon.png" />
+						<span style="vertical-align: middle;">推广有奖</span>
+					</p>
+					<p>邀请好友使用聚牛，邀请越多奖励越多</p>
+				</div>
+				<div class="wallet_list">
+					<div class="mui-table-view">
+						<div class="left">
+							<p class="view_title">
+								绑卡奖励
+								<span class="bk_money"></span>
+							</p>
+							<p class="condition">添加信用卡成功即可获得奖励</p>
+						</div>
+						<div class="right">
+							<span class="to_finish go_bk">去绑卡</span>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+					<div class="mui-table-view">
+						<div class="left">
+							<p class="view_title">
+								收款奖励
+								<span class="sk_money"></span>
+							</p>
+							<p class="condition">成功完成收款即可获得奖励</p>
+						</div>
+						<div class="right">
+							<span class="to_finish go_sk">去收款</span>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="mui-table-view">
+						<div class="left">
+							<p class="view_title">
+								还款奖励
+								<span class="hk_money"></span>
+							</p>
+							<p class="condition">成功完成还款即可获得奖励</p>
+						</div>
+						<div class="right">
+							<span class="to_finish go_hk">去还款</span>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<img src="../../img/wallet_1.png" class="share" style="width: 100%;margin-top: 15px;"/>
+		</div>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+
+				window.addEventListener('index', function(e) { //执行刷新
+					location.reload();
+				});
+				window.addEventListener('user', function(e) { //执行刷新
+					location.reload();
+				});
+
+				window.addEventListener('activation', function(e) { //执行刷新
+					location.reload();
+				});
+//				plus.nativeUI.showWaiting("安全检测中，请等待");
+				var tokens = localStorage.getItem("token");
+				var tokensss = tokens;
+				setInterval(function() {
+					tokens = localStorage.getItem("token");
+					if(tokensss != tokens) {
+						window.addEventListener('shareProfit_load', function(e) { //执行刷新
+							location.reload();
+						});
+					}
+				}, 100);
+				var self = plus.webview.currentWebview();
+				if(self.type == 1) {
+					$("header a").attr("class", "mui-action-back mui-icon mui-icon-left-nav mui-pull-left");
+				}
+				$(".share").click(function(){
+					mui.openWindow({
+						url: "../user/share_code.html",
+						id: "share_code",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+					})
+				})
+				/*获取用户信息*/
+				mui.ajax({
+					url: site_app + "/api/my/info",
+					type: "post",
+					data: {
+						token: tokens
+					},
+					dataType: "json",
+					success: function(e) {
+						if(e.error == 0) {
+							if(e.data.user_isactivation == 0) {
+								mui.ajax({
+									type: "post",
+									url: site_app + "/api/Make/index",
+									data: {
+										token: tokens
+									},
+									dataType: "json",
+									success: function(e) {
+										if(e.error == 0) {
+											$(".bk_money").html("+" + e.data.card.binCard + "元");
+											$(".hk_money").html("+" + e.data.mission.mission + "元");
+											$(".sk_money").html("+" + e.data.records.records + "元");
+											$(".go_bk").attr("title", e.data.card.isbinCard);
+											if(e.data.card.isbinCard == 0) {
+												$(".go_bk").addClass("to_finish").removeClass("to_finish_h");
+											} else {
+												$(".go_bk").addClass("to_finish_h").removeClass("to_finish").html("已完成").attr("disabled", "disabled");
+											};
+											if(e.data.mission.ismission == 0) {
+												$(".go_hk").addClass("to_finish").removeClass("to_finish_h");
+											} else {
+												$(".go_hk").addClass("to_finish_h").removeClass("to_finish").html("已完成").attr("disabled", "disabled");
+											};
+											if(e.data.records.isrecords == 0) {
+												$(".go_sk").addClass("to_finish").removeClass("to_finish_h");
+											} else {
+												$(".go_sk").addClass("to_finish_h").removeClass("to_finish").html("已完成").attr("disabled", "disabled");
+											};
+										}
+									}
+								});
+							} else {
+								mui.alert('请激活账户', '提示', '', function() {
+									mui.openWindow({
+										url: "../user/activation.html",
+										id: "activation",
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+										},
+										waiting: {
+											autoShow: true, //自动显示等待框，默认为true
+											title: '安全检测中，请等待', //等待对话框上显示的提示内容
+										}
+									});
+								}, 'div');
+							}
+						}
+					}
+				});
+				$(".go_bk").click(function() {
+					mui.openWindow({
+						url: "../index/binding_card.html",
+						id: "binding_card",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+					})
+				});
+
+				$(".go_sk").click(function() {
+					var types = $(".go_bk").attr("title");
+					if(types == 0) {
+						mui.openWindow({
+							url: "../index/binding_card.html",
+							id: "binding_card",
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							},
+							waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+						})
+					} else {
+						mui.openWindow({
+							url: "../index/sk_list.html",
+							id: "sk_list",
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							},
+							waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+						})
+					}
+				});
+				$(".go_hk").click(function() {
+					var types = $(".go_bk").attr("title");
+					if(types == 0) {
+						mui.openWindow({
+							url: "../index/binding_card.html",
+							id: "binding_card",
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							},
+							waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+						})
+					} else {
+						mui.openWindow({
+							url: "../index/card_list.html",
+							id: "card_list",
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							},
+							waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '', //等待对话框上显示的提示内容
+						}
+						})
+					}
+				});
+
+				$("body").ajaxStop(function() {
+					plus.nativeUI.closeWaiting();
+				});
+			});
+		</script>
+	</body>
+
+</html>

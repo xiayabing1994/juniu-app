@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/my_shareProfit.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_812297_z1nllq4etb.css" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="profit_info" id="refreshContainer">
+
+				<p class="sign">当前分润</p>
+				<p class="profit_money">￥0.00</p>
+				<div class="total_monry">
+					累计分润
+					<span class="money lj_m">￥0.00</span>
+				</div>
+				<ul class="invite_num">
+					<li class="direct" title="1">
+						<p class="num zt_num">0人</p>
+						<p class="sign">直接邀请</p>
+					</li>
+					<li class="indirect" title="2">
+						<p class="num jt_num">0人</p>
+						<p class="sign">间接邀请</p>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+
+			<ul class="profit_mode">
+				<li title="1">
+					<div class="title">
+						<img src="../../img/profit_upgrade_icon.png" /> 好友升级
+						<!--<span class="iconfont icon-mjiantou right"></span>-->
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money sj_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num sj_num">0</span>
+						</p>
+					</div>
+				</li>
+				<li title="2">
+					<div class="title">
+						<img src="../../img/profit_repayment_icon.png" /> 好友还款
+						<!--<span class="iconfont icon-mjiantou right"></span>-->
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money hk_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num hk_num">0</span>
+						</p>
+					</div>
+				</li>
+				<!-- <li title="3">
+					<div class="title">
+						<img src="../../img/profit_cash_icon.png" /> 好友收款
+						
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money sk_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num sk_num">0</span>
+						</p>
+					</div>
+				</li>
+				<li title="4">
+					<div class="title">
+						<img src="../../img/profit_trans_icon.png" /> 积分兑换
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money jy_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num jy_num">0</span>
+						</p>
+					</div>
+				</li>
+				<li title="5">
+					<div class="title">
+						<img src="../../img/profit_loan_icon.png" /> 办理贷款
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money dk_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num dk_num">0</span>
+						</p>
+					</div>
+				</li>
+				<li title="6">
+					<div class="title">
+						<img src="../../img/profit_makecard_icon.png" /> 办信用卡
+						<span class="iconfont icon-mjiantou right"></span>
+						<div class="clear"></div>
+					</div>
+					<div class="mode_info">
+						<p class="money bk_m">￥0.00</p>
+						<p class="sign">分润金额</p>
+						<p class="sign profit_num">
+							分润笔数
+							<span class="num bk_num">0</span>
+						</p>
+					</div>
+				</li> -->
+				<div class="clear"></div>
+			</ul>
+			<!--<img src="../../img/fr_g.png" width="100%" />-->
+		</div>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+					pullRefresh: {
+						container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+						down: {
+							height: 50,
+							contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+							contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+							contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+							callback: pulldownRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+						}
+					}
+				});
+
+//				$(window).scroll(function(event) {
+//					var wScrollY = window.scrollY; // 当前滚动条位置  
+//					var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）  
+//					var bScrollH = document.body.scrollHeight; // 滚动条总高度    
+//					if(wScrollY == 0) {
+//						$("header").addClass("head_tbg").removeClass("head_bg");
+//					} else if(wScrollY >= 10) {
+//						$("header").addClass("head_bg").removeClass("head_tbg");
+//					}
+//				})
+				//plus.nativeUI.showWaiting("安全检测中，请等待");
+				var tokens = getToken();
+				getToken();
+
+				mui.ajax({
+					type: "post",
+					url: site_app + "/api/My/getbonus",
+					data: {
+						token: tokens
+					},
+					dataType: "json",
+					success: function(e) {
+						if(e.error == 0) {
+							$(".profit_money").text("￥" + e.data.money);
+							$(".lj_m").text("￥" + e.data.coutmoney);
+							$(".sj_m").text("￥" + e.data.money_1);
+							$(".sj_num").text(e.data.count_1);
+							$(".sk_m").text("￥" + e.data.money_2);
+							$(".sk_num").text(e.data.count_2);
+							$(".hk_m").text("￥" + e.data.money_3);
+							$(".hk_num").text(e.data.count_3);
+							$(".jy_m").text("￥" + e.data.money_4);
+							$(".jy_num").text(e.data.count_4);
+							$(".dk_m").text("￥" + e.data.money_5);
+							$(".dk_num").text(e.data.count_5);
+							$(".bk_m").text("￥" + e.data.money_6);
+							$(".bk_num").text(e.data.count_6);
+							$(".zt_num").text(e.data.puser + "人");
+							$(".jt_num").text(e.data.countuser + "人");
+						}
+					}
+				});
+				$(".invite_num").on("tap","li",function() {
+					var title = $(this).attr("title");
+					if(!tokens) {
+						mui.openWindow({
+							url: "../login/login.html",
+							id: "login",
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							},
+							waiting: {
+								autoShow: false, //自动显示等待框，默认为true
+								//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+							}
+						})
+					} else {
+						if(title == 1) {
+							mui.openWindow({
+								url: "xj_list.html",
+								id: "xj_list",
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+								},
+								extras: {
+									title: "1"
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+									//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+								}
+							})
+						} else if(title == 2) {
+							mui.openWindow({
+								url: "xj_list.html",
+								id: "xj_list",
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+								},
+								extras: {
+									title: "2"
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+									//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+								}
+							})
+						}
+
+					}
+				})
+
+				function pulldownRefresh() {
+					setTimeout(function() {
+						mui.ajax({
+							type: "post",
+							url: site_app + "/api/My/getbonus",
+							data: {
+								token: tokens
+							},
+							dataType: "json",
+							success: function(e) {
+								console.log(e);
+								if(e.error == 0) {
+									$(".profit_money").text("￥" + e.data.money);
+									$(".lj_m").text("￥" + e.data.coutmoney);
+									$(".sj_m").text("￥" + e.data.money_1);
+									$(".sj_num").text(e.data.count_1);
+									$(".sk_m").text("￥" + e.data.money_2);
+									$(".sk_num").text(e.data.count_2);
+									$(".hk_m").text("￥" + e.data.money_3);
+									$(".hk_num").text(e.data.count_3);
+									$(".jy_m").text("￥" + e.data.money_4);
+									$(".jy_num").text(e.data.count_4);
+									$(".dk_m").text("￥" + e.data.money_5);
+									$(".dk_num").text(e.data.count_5);
+									$(".bk_m").text("￥" + e.data.money_6);
+									$(".bk_num").text(e.data.count_6);
+									$(".zt_num").text(e.data.puser + "人");
+									$(".jt_num").text(e.data.countuser + "人");
+								}
+							}
+						});
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh(false);
+					}, 1500)
+
+				}
+				$("body").ajaxStop(function() {
+					plus.nativeUI.closeWaiting();
+				});
+			});
+		</script>
+	</body>
+
+</html>

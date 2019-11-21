@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<style type="text/css">
+			html,
+			body,
+			.mui-content,
+			iframe {
+				height: 100%;
+			}
+			
+			/*header {
+				width: 100%;
+				height: 75px !important;
+				background: url(../../img/login.png) no-repeat;
+				background-size: cover;
+				box-shadow: none !important;
+				padding-top: 33px;
+			}
+			
+			.mui-content {
+				padding-top: 75px !important;
+			}*/
+			
+			header a {
+				color: #fff;
+			}
+			
+			.mui-title {
+				color: #fff!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">在线客服</h1>
+		</header>
+		<div class="mui-content">
+			<div class="kefu-box">
+				<p>400客服电话</p>
+				<h3 class="tel"></h3>
+				<a class="a-tel mui-btn mui-btn-primary mui-btn-outlined" href="javascript:;">立即拨打</a>
+			</div>
+		</div>
+		<style>
+			.kefu-box{text-align: center;}
+			.kefu-box p{margin:20px 0;}
+			.tel{margin:20px 0;}
+		</style>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+				//plus.nativeUI.showWaiting("安全检测中，请等待");
+				
+				var tokens = getToken();
+				getToken();
+				mui.ajax({
+					type: "post",
+					url: site_app + "/api/index/kefutel",
+					data: {
+						token: tokens
+					},
+					dataType: "json",
+					success: function(e) {
+						console.log(e.data);
+						if(e.error == 0) {
+							$(".tel").html(e.data);
+							$(".a-tel").attr("href","tel:"+e.data);
+						}
+					}
+				});
+
+				plus.nativeUI.closeWaiting();
+			})
+		</script>
+	</body>
+
+</html>

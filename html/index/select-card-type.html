@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			ul,li{list-style: none;margin: 0;padding: 0;}
+			body,.mui-content,.mui-bar-nav{
+				background: #0285ff;
+			}
+			.mui-title,.mui-action-back{color: #FFFFFF;}
+			.box{
+				width: 80%;
+				margin:10% auto;
+			}
+			.box p{color: #ffffff;margin: 20px 0;}
+			.box ul li{text-align: center;}
+			.box li img{width: 100%;margin:10px 0;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">智能还款</h1>
+		</header>
+		<div class="mui-content">
+			<div class="box">
+				<p>请选择账单类型</p>
+				<ul>
+					<li class="card-type" title="xe">
+						<img src="../../img/card-xe.png" >
+					</li>
+					<li class="card-type" title="de">
+						<img src="../../img/card-de.png" >
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/jquery-1.8.0.min.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.plusReady(function () {
+			    mui.init();
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+				
+				
+				$(".card-type").click(function(){
+					var title = $(this).attr("title");
+					/*检查通道是否可用*/
+					mui.ajax({
+						type: "post",
+						url: site_app + "/api/Main/channel",
+						data: {
+							type: title
+						},
+						dataType: "json",
+						success: function(e) {
+							if(e.error == 0) {
+								mui.openWindow({
+									url: "binding_card.html",
+									id: "binding_card",
+									show: {
+										autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									},
+									extras:{
+										cardType:title
+									},
+									waiting: { 
+										//autoShow: true, //自动显示等待框，默认为true
+										//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+									}
+								})
+							}else{
+								mui.toast(res.msg);
+							}
+						}
+					});
+					
+				});
+			})
+		</script>
+	</body>
+
+</html>

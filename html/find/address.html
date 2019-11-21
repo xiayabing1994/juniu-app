@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/address.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收货地址</h1>
+			<span class="add">新增</span>
+		</header>
+		<div class="mui-content">
+			<ul>
+				<li>
+					<div class="address_ct">
+						<div class="user_info">
+							<span class="user_name">张三三</span>
+							<span class="phone">15563746666</span>
+
+						</div>
+						<span>
+							<span class="moren">默认地址</span>山东省 济宁市 任城区 山东省济宁市任城区翠都国际C座1906室
+						</span>
+					</div>
+					<div class="set_mr">
+						编辑
+					</div>
+					<div class="clear"></div>
+				</li>
+				<li>
+					<div class="address_ct">
+						<div class="user_info">
+							<span class="user_name">李四</span>
+							<span class="phone">15563746666</span>
+						</div>
+						<span>山东省 济宁市 任城区 山东省济宁市任城区海能国际</span>
+					</div>
+					<div class="set_mr ">
+						编辑
+					</div>
+					<div class="clear"></div>
+				</li>
+				<li>
+					<div class="address_ct">
+						<div class="user_info">
+							<span class="user_name">赵五</span>
+							<span class="phone">15563746666</span>
+						</div>
+						<span>山东省 济宁市 嘉祥县 山东省济宁市嘉祥县</span>
+					</div>
+					<div class="set_mr">
+						编辑
+					</div>
+					<div class="clear"></div>
+				</li>
+			</ul>
+		</div>
+		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight+44;
+				$(".statusbarHeight").css("height",StatusbarHeight);
+				$("header").css("height",headerH);
+				$(".mui-content").css("padding-top",headerH);
+				window.addEventListener('index', function(e) { //执行刷新
+					location.reload();
+				});
+				$(".add").click(function() {
+					mui.openWindow({
+						url: "../find/add_address.html",
+						id: "add_address",
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						},
+						waiting: {
+							//autoShow: true, //自动显示等待框，默认为true
+							//title: '安全检测中，请等待', //等待对话框上显示的提示内容
+						}
+					})
+				})
+				 
+			})
+		</script>
+	</body>
+
+</html>

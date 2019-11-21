@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/my_member.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="statusbarHeight">&nbsp;</div>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">会员权益</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user_info" style="display: ;">
+				<div class="user_img">
+					<img src="../../img/agent_common_big_icon.png" id="user_img" />
+					<p class="type_name"></p>
+				</div>
+			</div>			
+			<div class="mui-slider">
+				<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="display: ;">
+				</div>
+				<div class="mui-slider-group">
+				</div>
+			</div>
+			
+			<div style="width:100%;">
+				<!-- <img src="../../img/vzct.jpg" id="ruleImg" style="width:100%;"> -->
+				<img src="" id="ruleImg" style="width:100%;">
+			</div>
+			
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.8.0.min.js"></script>
+		<script src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				mui.init({
+					hardwareAccelerated: true,
+					beforeback: function() {
+						//获得父页面的webview
+						var list = plus.webview.currentWebview().opener();
+						//触发父页面的自定义事件(refresh),从而进行刷新
+						mui.fire(list, 'user');
+						//返回true,继续页面关闭逻辑
+						return true;
+					}
+				});
+				var StatusbarHeight = plus.navigator.getStatusbarHeight();
+				var headerH = StatusbarHeight + 44;
+				$(".statusbarHeight").css("height", StatusbarHeight);
+				$("header").css("height", headerH);
+				$(".mui-content").css("padding-top", headerH);
+				window.addEventListener('member', function(e) { //执行刷新
+					location.reload();
+				});
+				window.addEventListener('activation', function(e) { //执行刷新
+					location.reload();
+				});
+				plus.nativeUI.showWaiting("安全检测中，请等待");
+				var token = getToken();
+				getToken();
+				mui.ajax({
+					type: 'post',
+					url: site_app + '/api/my/info',
+					data: {
+						'token': token
+					},
+					cache: false,
+					dataType: 'json',
+					success: function(data) {
+						if(data.error == 0) {
+							//获取收款还款费率
+							mui.ajax({
+								type: 'post',
+								url: site_app + '/api/my/Membership',
+								data: {
+									'token': token
+								},
+								dataType: 'json',
+								success: function(e) {
+									$(".mui-slider-indicator").append("");
+									$(".mui-slider-group").append("");
+									if(e.error == 0) {
+										var html = '';
+										var list = ''; 
+										for(var i = data.data.user_type_id-1; i < e.data.sk.length; i++) {
+										//for(var i = 0; i < 1; i++) {
+											var num = i + 1;
+											var pt_5 = e.data.sk[i].rate_rate * 100;
+											var pt_6 = e.data.hk[i].rate_rate * 100;
+											if(i==data.data.user_type_id-1) {
+												html += '<a class="mui-control-item mui-active" href="#item' + num + '">' + e.data.sk[i].type_name + '</a>';
+												list += '<div id="item' + num + '" class="mui-slider-item mui-control-content mui-active">';
+											} else {
+												html += '<a class="mui-control-item" href="#item' + num + '">' + e.data.sk[i].type_name + '</a>';
+												list += '<div id="item' + num + '" class="mui-slider-item mui-control-content">';
+											}
+											
+											var rate_rate = e.data.sk[i].money_z;
+											num = parseFloat(rate_rate).toFixed(2);
+											
+											if(e.data.sk[i].type_id!=5){
+												list += '<div class="pt_cont" id="btn' + e.data.sk[i].type_id + '">' +
+													'<div class="channel" >' +
+													'<div class="title">' +
+													'请选择支付方式:' +
+													'</div>' +
+													'<ul class="channel_list pt_channel"></ul>' +
+													'</div>' +
+													'<p class="price pt_money">需支付：' + e.data.sk[i].type_fee + '</p>' +
+													'<button type="button" class="mui-btn mui-btn-blue pt_btn" data-type="' + e.data.sk[i].type_id + '" title="' + e.data.sk[i].type_fee + '">立即升级</button>' +
+													'</div>' +
+													'</div>';
+											}else{
+												//如果type_id是5的情况下;线下升级
+												list += '<div class="pt_cont" id="btn' + e.data.sk[i].type_id + '">' +
+													'<div class="channel" >' +
+													'<div class="title">' +
+													'请与平台联系:' +
+													'</div>' +
+													
+													'</div>' +
+													'<a href="tel:4008709799" class="mui-btn mui-btn-blue" >点击拨打400电话</a>' +
+													'</div>' +
+													'</div>';
+											}
+											
+										}
+										$(".mui-slider-indicator").append(html);
+										$(".mui-slider-group").append(list);
+										
+										
+										//处理升级以后,隐藏掉其他级别
+										var num = e.data.sk.length;
+										if(data.data.user_type_id > 1){
+											num=e.data.sk.length-(data.data.user_type_id-1);
+										}
+										$(".mui-segmented-control.mui-segmented-control-inverted .mui-control-item").css("width", "calc(100% / " + num + ")");
+										
+										
+										var gallery = mui('.mui-slider');
+										gallery.slider();
+										
+										if(data.data.user_type_id == 1) {
+											$("#user_img").attr("src", "../../img/agent_common_big_icon.png");
+										} else if(data.data.user_type_id == 5) {
+											$("#user_img").attr("src", "../../img/agent_diamond_big_icon.png");
+										}else{
+											$("#user_img").attr("src", "../../img/agent_gold_big_icon.png");
+										}
+										$(".mui-slider-group #btn"+data.data.user_type_id).hide();
+										//获取会员升级支付渠道
+										mui.ajax({
+											type: 'post',
+											url: site_app + '/api/repayment/membergetchannel',
+											data: {
+												'token': token
+											},
+											cache: false,
+											dataType: 'json',
+											success: function(data) {
+												if(data.error == 0) {
+													var tex = '';
+													var html = '';
+													for(i = 0; i < data.data.length; i++) {
+														html += '<li>' +
+															'<div class="mui-input-row mui-radio mui-left">' +
+															'<label>' + data.data[i].channel_name + '</label>';
+														if(i == 0) {
+															html += '<input name="" value="' + data.data[i].channel_id + '" type="radio">';
+														} else {
+															html += '<input name="" value="' + data.data[i].channel_id + '" type="radio">';
+														}
+														html += '</div></li>';
+													}
+													$('.mui-slider-group .channel_list').html(html);
+												} else {
+													mui.alert(data.msg, '提示', '', '', 'div');
+												}
+											}
+										});
+									} else {
+										mui.alert(e.msg, '提示', '', '', 'div');
+									}
+								}
+							});
+							
+							$(".type_name").html(data.data.type_name);
+							if(data.data.user_isactivation == 0) {} else {
+								mui.alert('请激活账户', '提示', '', function() {
+									mui.openWindow({
+										url: "../user/activation.html",
+										id: "activation",
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+										},
+										waiting: {
+											autoShow: true, //自动显示等待框，默认为true                          
+											title: '安全检测中，请等待', //等待对话框上显示的提示内容
+										}
+									})
+								}, 'div');
+							}
+
+						} else {
+							mui.alert(data.msg, '提示', '', '', 'div');
+						}
+					}
+				})
+				
+				
+				var channel = null;
+				plus.payment.getChannels(function(channels) { 
+					for (var  i  in  channels)  {                         
+						if (channels[i].id  ==  "wxpay")  {                              
+							channel = channels[i];                          
+						}                   
+					}
+				}, function(e) {
+					mui.alert('获取支付通道失败', '提示', '', '', 'div');
+					return false;
+				});
+				
+				
+				//会员等级升级
+				$(".mui-slider-group").on("click", ".pt_btn", function() {
+					var money = $(this).attr("title");
+					var chennel_id = $('.channel_list input[type=radio]:checked').val();
+					var title = $(this).attr("data-type");
+					// console.log(JSON.stringify({
+					// 		'token': token,
+					// 		'price': money,
+					// 		'chennel_id': chennel_id,
+					// 		'type_id': title
+					// 	}));
+					mui.ajax({
+						type: 'post',
+						url: site_app + '/api/payrecords/memberupgrade',
+						data: {
+							'token': token,
+							'price': money,
+							'chennel_id': chennel_id,
+							'type_id': title
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.error == 0) {
+								if(data.data.isurl == 0) {
+									var datas = data.data.res.data;
+									var pay_info = JSON.stringify(datas);
+									//console.log(pay_info)
+									plus.payment.request(channel, pay_info, function(result) {
+										mui.alert("支付成功！", '提示', '', function() {
+											location.reload();
+										}, 'div');
+									}, function(error) {
+										//console.log(JSON.stringify(error))
+										mui.toast("支付失败" + error.code)
+									});
+								} else if(data.data.isurl == 1) {
+									mui.ajax({
+										type: 'get',
+										url: site_app + '/Pay/alipayapp/init',
+										data: {
+											'token': token,
+											'order_no': data.data.order_no
+										},
+										dataType: 'json',
+										success: function(payRes) {
+											//console.log(JSON.stringify(payRes));
+											if(payRes.code == 0){
+												mui.openWindow({
+													url: "member_iframe.html",
+													id: "member_iframe",
+													show: {
+														autoShow: true, //页面loaded事件发生后自动显示，默认为true
+													},
+													extras: {
+														urls: payRes.data.code_url,
+													},
+													waiting: {
+														autoShow: true, //自动显示等待框，默认为true
+														title: '安全检测中，请等待', //等待对话框上显示的提示内容
+													}
+												})
+											}else{
+												mui.alert(payRes.msg,function(){
+													mui.back();
+												});
+											}
+											
+										}
+									});
+								}
+							} else {
+								mui.alert(data.msg, '提示', '', '', 'div');
+							}
+						}
+					})
+				});
+				
+				
+				//获取会员权限图片
+				mui.ajax({
+					type: 'post',
+					url: site_app + '/api/main/get_ruleimg',
+					data: {
+						'token': token,
+					},
+					dataType: 'json',
+					success: function(data) {
+						//alert(data.data.src);
+						$("#ruleImg").attr("src",data.data.src);
+					},
+				});
+				
+				plus.nativeUI.closeWaiting();
+			});
+		</script>
+	</body>
+
+</html>
