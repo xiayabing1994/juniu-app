@@ -60,24 +60,20 @@
 					<div class="title">还款金额</div>
 					<div class="mui-input-row">
 						<span class="sign">￥</span>
-						<input type="text" class="mui-input-clear money" id="money" placeholder="请输入还款金额">
+						<input type="text" class="mui-input-clear money" id="money" placeholder="请输入还款金额" value="">
 						<!--<span class="recalculate right">计算笔数</span>-->
 						<div class="clear"></div>
 					</div>
 					<ul class="num_list" id="numlist">
 
 					</ul>
-					<!-- <div class="site" style="padding: 0 15px;">
+					<div class="site" style="padding: 0 15px;">
 						<label>消费地区：</label>
 						<div class="right">
 							<input type="text" class="mui-input-clear" id="site" readonly="readonly" placeholder="请选择消费地区">
 							<span class="iconfont icon-mjiantou"></span>
 						</div>
 						<div class="clear"></div>
-					</div> -->
-					<div class="mui-input-row choose_time site">
-						<label>消费地区：</label>
-						<input type="text" class="mui-input-clear" id="site" readonly="readonly" placeholder="请选择消费地区">
 					</div>
 					<div class="clear"></div>
 					<div class="mui-input-row choose_time">
@@ -86,26 +82,10 @@
 					</div>
 					<div class="mui-input-row choose_time">
 						<label>结束时间</label>
-						<input type="text" id="end" class="mui-input-clear" placeholder="请选择计划结束时间" readonly="readonly">
-					</div>
-					<div class="mui-input-row choose_time">
-						<label>还款笔数</label>
-						<input type="text" id="repayNum" class="mui-input-clear" placeholder="请填写还款笔数">
+						<input type="text" id="end" class="mui-input-clear" placeholder="请选择计划结束时间" readonly="readonly" value="">
 					</div>
 					<div class="mengban"></div>
 				</form>
-			</div>
-			<div style="padding:15px 15px 0;">
-				<p>注意事项：</p>
-				<p>1.小额账单：交通银行，花旗银行不支持</p>
-				<p>2.小额账单：光大，中国银行单笔500，单日1000</p>
-				<p>3.小额账单：其他银行单笔1000 </p>
-				<p>4.小额账单：支持地方性银行</p>
-				<p style="color:red;">以上不支持的建议使用大额账单进行还款</p>
-				<div class="mui-input-row mui-radio mui-left" style="display: none;">
-					<label>我已确认卡内有足够预留资金，并同意开始执行计划</label>
-					<input name="radio" type="radio" checked></label>
-				</div>
 			</div>
 			<button type="button" class="mui-btn mui-btn-blue preview_plan">生成预览计划</button>
 			<div class="preview_list" style="display: none;">
@@ -116,12 +96,12 @@
 							<span class="li_c" id="Money">0</span>
 						</li>
 						<li>
-							<p>手续费</p>
+							<p>总手续费</p>
 							<span class="li_c" id="sumMoney">0</span>
 						</li>
 						<li>
-							<p>代付费</p>
-							<span class="li_c" id="daiSumMoney">0</span>
+							<p>总代付费</p>
+							<span class="li_c" id="daisumMoney">0</span>
 						</li>
 						<li>
 							<p>预留总额度</p>
@@ -130,14 +110,9 @@
 						<div class="clear"></div>
 					</ul>
 				</div>
-				<style>
-					.info_list .view_ul li {
-						width: calc(100% / 2);
-					}
-				</style>
 				<div class="info_list">
 					<div id="ajax_data">
-					
+
 					</div>
 				</div>
 				<button type="button" class="mui-btn mui-btn-blue generate_plan">提交计划</button>
@@ -197,9 +172,6 @@
 						return true;
 					}
 				});
-				
-				
-				
 				var StatusbarHeight = plus.navigator.getStatusbarHeight();
 				var headerH = StatusbarHeight + 44;
 				$(".statusbarHeight").css("height", StatusbarHeight);
@@ -211,14 +183,15 @@
 				//这个地方需要获取上个页面传值过来的银行卡的ID
 
 				var self = plus.webview.currentWebview();
-				$('#bankid').val(self.title);
+				var bankid = self.title;
+				$('#bankid').val(bankid);
 				//获取支付通道
+
 				getToken();
-				//plus.nativeUI.showWaiting("安全检测中，请等待");
-				//获取通道
-				var bankid = $('#bankid').val();
+				
+				//获取头部
 				var city_picker = new mui.PopPicker({
-					layer: 3
+					layer: 2
 				});
 				var cData;
 				mui.ajax({
@@ -231,6 +204,7 @@
 					},
 					dataType: 'json',
 					success: function(e) {
+						// console.log(e.msg);
 						if(e.error == 0) {
 							var result = e.data; //JSON.parse(e.data);
 							var tpl = '';
@@ -271,11 +245,11 @@
 							var b = banks.card_no.substring(banks.card_no.length - 4, banks.card_no.length);
 							$('#banklist').html(bankLists.list_name + '(' + b + ')');
 							$('#bankurl').attr('src', bankLists.list_logo);
-						}else{
-							mui.alert(e.msg);
 						}
 					}
 				});
+				
+				
 				
 				$(".mengban,.industry_sure,.close").click(function() {
 					$(".mengban,.code_popup").hide();
@@ -300,6 +274,7 @@
 					day = d;
 				}
 				$("#start").val(start.getFullYear() + "-" + month + "-" + day);
+
 				document.getElementById('start').addEventListener('tap', function() {
 					var dtPicker = new mui.DtPicker({
 						type: "date",
@@ -317,9 +292,6 @@
 						$("#end").val(selectItems.text);
 					})
 				});
-				
-				
-				//获取银行卡信息
 				mui.ajax({
 					url: site_app + "/api/my/card_info",
 					type: "post",
@@ -331,17 +303,15 @@
 					async: false,
 					success: function(e) {
 						if(e.error == 0) {
-							$("#site").val(e.data.card_province + "-" + e.data.card_city + "-" + e.data.card_district);
+							$("#site").val(e.data.card_province + "-" + e.data.card_city);
 						}
 					}
 				})
-				
-				
-				//生成预览计划
+
 				var preview_data, datas;
-				$(".preview_plan").click(function() {
+				$(".stroke_sure").click(function() {
 					var money = $("#money").val();
-					var reapayNum = $("#repayNum").val();
+					var radios = $(".stroke_radio input[name='radio']:checked").val();
 					var bankid = $('#bankid').val();
 					var channelType = $('#channelType').val();
 					var bankurl = $('#bankurl').attr('src');
@@ -351,13 +321,8 @@
 					var end = $("#end").val();
 					var region = $("#site").val();
 					var city_id = $("#site").attr("title");
-					if(money == '') {
-						mui.alert('请输入还款金额', '提示', '', '', 'div');
-						return false;
-					}
-					//alert(reapayNum);
-					if(parseInt(reapayNum)<1 || reapayNum == ''){
-						mui.alert('请输入大于1的还款笔数', '提示', '', '', 'div');
+					if(radios == null) {
+						mui.alert('请选择笔数', '提示', '', '', 'div');
 						return false;
 					}
 					if(end == "") {
@@ -368,11 +333,11 @@
 						});
 						return false;
 					}
-					plus.nativeUI.showWaiting("计算中..");
+					plus.nativeUI.showWaiting();
 					datas = {
 						'pay_id': channelType,
 						'cid': bankid,
-						'type': reapayNum,
+						'type': radios,
 						'money': money,
 						'token': tokens,
 						'version': '2.0',
@@ -380,16 +345,19 @@
 						'start_time': start,
 						'end_time': end,
 						'city_id': city_id
-					};
-					console.log(JSON.stringify(datas));
+					}
+					//console.log(JSON.stringify(datas));//return;
 					$('#ajax_data').html("");
+				    // console.log(site_app + '/api/repayment/preview');
 					mui.ajax({
 						type: 'post',
 						url: site_app + '/api/repayment/preview',
 						async: false,
 						data: datas,
 						dataType: 'json',
+						// headers:{'Content-Type':'application/x-www-form-urlencoded'},
 						success: function(e) {
+							console.log(e.error);
 							plus.nativeUI.closeWaiting();
 							if(e.error == 0) {
 								$(".mengban").hide();
@@ -398,7 +366,7 @@
 								});
 								$(".preview_list").show();
 								$("html,body").animate({
-									scrollTop: "850px"
+									scrollTop: "600px"
 								}, 500);
 								var result = e.data; //JSON.parse(e.data);
 								preview_data = e;
@@ -411,11 +379,13 @@
 											tpl += '    <div class="view_ul">';
 											tpl += '        <ul>';
 											tpl += '            <li style="text-align: left;">';
-											tpl += '                <p>消费金额</p>';
+											tpl += '                <p>扣款金额</p>';
 											tpl += '                <span class="cut">' + num + '</span>';
 											tpl += '            </li>';
-											
-											
+											tpl += '            <li>';
+											tpl += '                <p>手续费</p>';
+											tpl += '                <span class="cut">' + result[i][a].fee + '</span>';
+											tpl += '            </li>';
 											tpl += '            <li style="text-align: right;">';
 											tpl += '                <p>时间</p>';
 											tpl += '                <span class="cut">' + result[i][a].time + '</span>';
@@ -439,7 +409,7 @@
 											tpl += '    <div class="hk_time">';
 											tpl += '        <div class="left">';
 											tpl += '            <div class="b_m">';
-											tpl += '                <p>还款</p>';
+											tpl += '                <p>还款金额</p>';
 											tpl += '                <span>' + num + '</span>';
 											tpl += '            </div>';
 											tpl += '        </div>';
@@ -457,8 +427,8 @@
 									$('#ajax_data').append(tpl);
 								}
 								$('#Money').html('￥' + e.sumMoney + '元');
-								$('#sumMoney').html('￥' + Number(e.free).toFixed(2) + '元');
-								$('#daiSumMoney').html('￥' + Number(e.daiSumMoney).toFixed(2) + '元');
+								$('#sumMoney').html('￥' + e.free + '元');
+								$('#daisumMoney').html('￥'+e.daiSumMoney+'元');
 								$('#sumMoneyfree').html('￥' + e.sumMoneyfree + '元');
 							} else {
 								mui.alert(e.msg, '提示', '', '', 'div');
@@ -467,14 +437,20 @@
 									bottom: "-330px"
 								});
 							}
-					
-						}
+
+						},
+						error:function(xhr,type,errorThrown){ 
+							//异常处理； 
+							// console.log(type); 
+							console.log(errorThrown);
+							// console.log(xhr);
+							} 
+							
 					});
-				});
+				    
 				
-				//点击选择行业;打开选择行业的列表
+				});
 				$("#ajax_data").on("click", ".industry", function() {
-					//return false;
 					plus.nativeUI.showWaiting();
 					var id = $(this).find("input").attr("id");
 					$(".industry_sure").attr("id", id);
@@ -483,13 +459,6 @@
 					var region = $("#site").val();
 					var city_id = $("#site").attr("title");
 					$(".industry_list").html("");
-					console.log(JSON.stringify({
-							token: tokens,
-							cid: bankid,
-							pay_id: channelType,
-							region: region,
-							city_id: city_id
-						}))
 					mui.ajax({
 						type: "post",
 						url: site_app + "/api/repayment/get_mcc",
@@ -530,11 +499,9 @@
 						}
 					});
 				})
-				
-				//确定选择某个行业
 				$(".industry_sure").click(function() {
 					var money = $("#money").val();
-					var reapayNum = $("#repayNum").val();
+					var radios = $(".stroke_radio input[name='radio']:checked").val();
 					var bankid = $('#bankid').val();
 					var channelType = $('#channelType').val();
 					var bankurl = $('#bankurl').attr('src');
@@ -547,7 +514,7 @@
 					datas = {
 						'pay_id': channelType,
 						'cid': bankid,
-						'type': reapayNum,
+						'type': radios,
 						'money': money,
 						'token': tokens,
 						'version': '2.0',
@@ -565,7 +532,6 @@
 						bottom: "-330px"
 					});
 					$(".mengban").hide();
-					//这里明天改造成单个账单选择单个行业
 					for(var i = 0; i < preview_data.data.length; i++) {
 						for(var a = 0; a < preview_data.data[i].length; a++) {
 							preview_data.data[index2][index1].mcc = $(".industry_radio input[name='radio']:checked").val();
@@ -573,164 +539,27 @@
 						}
 					}
 					datas['data'] = preview_data;
-					//console.log(JSON.stringify(datas));
-					//修改预览计划
 					mui.ajax({
 						type: "post",
 						url: site_app + "/api/repayment/preview_edit",
 						data: datas,
 						dataType: "json",
 						success: function(e) {
-							//console.log(JSON.stringify(e));
+							if(e.error != 0){
+								mui.alert(e.msg, '提示', '', '', 'div');
+							}
 						}
 					});
 				});
-				
-				
-				//点击提交计划按钮
-				$(".generate_plan").click(function() {
-					var money = $("#money").val();
-					var reapayNum = $("#repayNum").val();
-					//var radios = $(".stroke_radio input[name='radio']:checked").val();//获取还款笔数
-					var bankid = $('#bankid').val();
-					var channelType = $('#channelType').val();
-					var bankurl = $('#bankurl').attr('src');
-					var banklist = $('#banklist').html();
-					var site = $("#site").val();
-					var start = $("#start").val();
-					var end = $("#end").val();
-					var region = $("#site").val();
-					var city_id = $("#site").attr("title");
-					datas = {
-						'pay_id': channelType,
-						'cid': bankid,
-						'type': reapayNum,
-						'money': money,
-						'token': tokens,
-						'version': '2.0',
-						'region': region,
-						'start_time': start,
-						'end_time': end,
-						'city_id': city_id
-					}
-					console.log("datas:"+JSON.stringify(datas));
-					mui.confirm("是否生成计划", "提示", ["取消", "确认"], function(s) {
-						if(s.index == 0) {} else {
-							plus.nativeUI.showWaiting();
-							mui.ajax({
-								type: "post",
-								url: site_app + "/api/repayment/create",
-								data: datas,
-								dataType: "json",
-								success: function(e) {
-									plus.nativeUI.closeWaiting();
-									//console.log("create-respond:"+JSON.stringify(e));
-									if(e.error == 10) {
-										if(e.type == "api") {
-											plus.nativeUI.showWaiting();
-											//api绑卡
-											mui.ajax({
-												type: "post",
-												url: site_app + "/api/repayment/bind_api",
-												data: {
-													token: tokens,
-													pay_id: channelType,
-													cid: bankid,
-													type: 1,
-													smscode: ""
-												},
-												dataType: "json",
-												success: function(data) {
-													//console.log("bind_api-respond"+JSON.stringify(data));
-													plus.nativeUI.closeWaiting();
-													if(data.msg){
-														mui.alert(data.msg, '提示', '', '', 'div');
-													}else{
-														mui.alert("绑卡成功，请继续操作", '提示', '', '', 'div');
-													}
-													if(data.error == 0) {
-														if(data.is_sms){
-															$(".code_popup,.mengban").show();
-															get_code_time();
-														}
-													}
-												}
-											});
-										} else if(e.type == "web") {
-											//web绑卡
-											mui.openWindow({
-												url: "receivables_iframe.html",
-												id: "receivables_iframe",
-												show: {
-													autoShow: true, //页面loaded事件发生后自动显示，默认为true
-												},
-												extras: {
-													title: e.url,
-													type: e.type
-												},
-												waiting: {
-													autoShow: true, //自动显示等待框，默认为true
-													title: '安全检测中，请等待', //等待对话框上显示的提示内容
-												}
-											})
-										} else if(e.type == "pay_web") {
-											//web支付
-											mui.openWindow({
-												url: "receivables_pay.html",
-												id: "receivables_pay",
-												show: {
-													autoShow: true, //页面loaded事件发生后自动显示，默认为true
-												},
-												extras: {
-													title: e.url,
-													type: e.type,
-													mid: e.mid
-												},
-												waiting: {
-													autoShow: true, //自动显示等待框，默认为true
-													title: '安全检测中，请等待', //等待对话框上显示的提示内容
-												}
-											})
-										}
-									} else if(e.error == 0) {
-										//跳转计划页面
-										mui.openWindow({
-											url: "repayment_list.html",
-											id: "repayment_list",
-											show: {
-												autoShow: true, //页面loaded事件发生后自动显示，默认为true
-											},
-											extras: {
-												mid: e.mid
-											},
-											waiting: {
-												autoShow: true, //自动显示等待框，默认为true
-												title: '安全检测中，请等待', //等待对话框上显示的提示内容
-											}
-										})
-				
-									} else {
-										mui.alert(e.msg, '提示', '', '', 'div');
-										return false;
-									}
-								}
-							});
-						}
-					}, "div");
-				})
-				
-				
-				
-				
-				
 				//通道选择
-				$(document).on('click', '.mui-table-view-cell ', function() {
+				mui(".pay_method").on('click', '.mui-table-view-cell ', function() {
 					$('#numlist').html('');
 					$(".num_list").hide();
 					$('.mui-table-view-cell img').attr('src', '../../img/radio_icon.png');
 					var obj = $(this);
 					$(this).find('img').attr('src', '../../img/radio_icon_checked.png');
 					$('#channelType').val(obj.attr('data-id'));
+					//alert(obj.attr('data-id'));
 					getpay(obj.attr('data-id'));
 					plus.nativeUI.showWaiting();
 					mui.ajax({
@@ -751,12 +580,6 @@
 						}
 					})
 				});
-				
-				
-				
-				
-				
-				//切换城市
 				$("#site").on("tap", function() {
 					city_picker.setData(cData);
 					setTimeout(function() {
@@ -766,21 +589,17 @@
 							} else if((items[1] || {}).text == undefined) {
 								(items[1] || {}).text = "";
 							}
-							//else if((items[2] || {}).text == undefined) {
-							//	(items[2] || {}).text = "";
-							//}
+							//							else if((items[2] || {}).text == undefined) {
+							//								(items[2] || {}).text = "";
+							//							}
 							//该ID为接收城市ID字段 
-							$("#site").val((items[0] || {}).text + "-" + (items[1] || {}).text + "-" + (items[2] || {}).text);
+							$("#site").val((items[0] || {}).text + "-" + (items[1] || {}).text);
 							$("#site").attr("title", (items[1] || {}).value);
-							
+							//							+ "-" + (items[2] || {}).text
 						});
 					}, 200);
 				});
-				
-				
-				
-				
-				//打开还款记录
+
 				$(".payment_history").click(function() {
 					mui.openWindow({
 						url: "payment_history.html",
@@ -797,16 +616,129 @@
 						}
 					})
 				});
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				//发送绑卡验证码
+				$(".generate_plan").click(function() {
+					var money = $("#money").val();
+					var radios = $(".stroke_radio input[name='radio']:checked").val();
+					var bankid = $('#bankid').val();
+					var channelType = $('#channelType').val();
+					var bankurl = $('#bankurl').attr('src');
+					var banklist = $('#banklist').html();
+					var site = $("#site").val();
+					var start = $("#start").val();
+					var end = $("#end").val();
+					var region = $("#site").val();
+					var city_id = $("#site").attr("title");
+					datas = {
+						'pay_id': channelType,
+						'cid': bankid,
+						'type': radios,
+						'money': money,
+						'token': tokens,
+						'version': '2.0',
+						'region': region,
+						'start_time': start,
+						'end_time': end,
+						'city_id': city_id
+					}
+					console.log(JSON.stringify(datas));//return;
+					mui.confirm("是否生成计划", "提示", ["取消", "确认"], function(s) {
+						if(s.index == 0) {} else {
+							plus.nativeUI.showWaiting();
+							mui.ajax({
+								type: "post",
+								url: site_app + "/api/repayment/create",
+								data: datas,
+								dataType: "json",
+								success: function(e) {
+									plus.nativeUI.closeWaiting();
+									if(e.error == 10) {
+										if(e.type == "api") {
+											plus.nativeUI.showWaiting();
+											mui.ajax({
+												type: "post",
+												url: site_app + "/api/repayment/bind_api",
+												data: {
+													token: tokens,
+													pay_id: channelType,
+													cid: bankid,
+													type: 1,
+													smscode: ""
+												},
+												dataType: "json",
+												success: function(data) {
+													plus.nativeUI.closeWaiting();
+													if(data.error == 0) {
+														if(data.is_send==1){
+															$(".code_popup,.mengban").show();
+															get_code_time();
+														}else{
+															$(".generate_plan").click();
+														}
+													} else {
+														mui.alert(e.msg, '提示', '', '', 'div');
+													}
+												}
+											});
+										} else if(e.type == "web") {
+											mui.openWindow({
+												url: "receivables_iframe.html",
+												id: "receivables_iframe",
+												show: {
+													autoShow: true, //页面loaded事件发生后自动显示，默认为true
+												},
+												extras: {
+													title: e.url,
+													type: e.type
+												},
+												waiting: {
+													autoShow: true, //自动显示等待框，默认为true
+													title: '安全检测中，请等待', //等待对话框上显示的提示内容
+												}
+											})
+										} else if(e.type == "pay_web") {
+											mui.openWindow({
+												url: "receivables_pay.html",
+												id: "receivables_pay",
+												show: {
+													autoShow: true, //页面loaded事件发生后自动显示，默认为true
+												},
+												extras: {
+													title: e.url,
+													type: e.type,
+													mid: e.mid
+												},
+												waiting: {
+													autoShow: true, //自动显示等待框，默认为true
+													title: '安全检测中，请等待', //等待对话框上显示的提示内容
+												}
+											})
+										}
+									} else if(e.error == 0) {
+										mui.openWindow({
+											url: "repayment_list.html",
+											id: "repayment_list",
+											show: {
+												autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											},
+											extras: {
+												mid: e.mid
+											},
+											waiting: {
+												autoShow: true, //自动显示等待框，默认为true
+												title: '安全检测中，请等待', //等待对话框上显示的提示内容
+											}
+										})
+
+									} else {
+										mui.alert(e.msg, '提示', '', '', 'div');
+										return false;
+									}
+								}
+							});
+						}
+					}, "div");
+				})
+
 				$(".code_sub").click(function() {
 					var bankid = $('#bankid').val();
 					var channelType = $('#channelType').val();
@@ -835,21 +767,29 @@
 						}
 					});
 				})
-				
-				
-				
-				
-				//查询可以还款次数
-				//生成预览计划
-				$(".preview_plan1").click(function() {
-					return false;
+
+				$(".preview_plan").click(function() {
 					var money = $("#money").val();
+					var start = $("#start").val();
+					var end = $("#end").val();
+					var region = $("#site").val();
+					var city_id = $("#site").attr("title");
 					if(money == '') {
 						mui.alert('请输入还款金额', '提示', '', '', 'div');
 						return false;
 					}
-					var start = $("#start").val();
-					var end = $("#end").val();
+					
+					var data={
+						'token': tokens,
+						'pay_id': $('#channelType').val(),
+						'cid': $('#bankid').val(),
+						'money': money,
+						'region': region,
+						'start_time': start,
+						'end_time': end,
+						'city_id': city_id
+					};
+					//console.log(JSON.stringify(data));
 					plus.nativeUI.showWaiting("计算中..");
 					//远程获取笔数接口
 					$(".stroke_list").html("");
@@ -857,14 +797,7 @@
 						type: 'post',
 						url: site_app + '/api/repayment/requests',
 						cache: false,
-						data: {
-							'token': tokens,
-							'pay_id': $('#channelType').val(),
-							'cid': $('#bankid').val(),
-							'money': money,
-							'start_time': start,
-							'end_time': end,
-						},
+						data: data,
 						dataType: 'json',
 						success: function(e) {
 							if(e.error == 0) {
@@ -882,7 +815,7 @@
 										"</div>" +
 										"</div>" +
 										"<div class='right'>" +
-										"<div class='mode_name'>" + result[i].muber + "次还完</div>" +
+										"<div class='mode_name'>" + result[i].muber + "笔"+result[i].sum+"</div>" +
 										"</div>" +
 										"<div class='clear'></div>" +
 										"</li>";
@@ -902,14 +835,9 @@
 					$(".custom_f").animate({
 						left: "0"
 					});
-				});
-				$("body").ajaxStop(function() {
-					plus.nativeUI.closeWaiting();
-				});
-				 
+				});				 
 			})
 			var wait = 60;
-
 			function get_code_time() {
 				//mui.alert('手机号格式错误','提示','','','div');
 				if(wait == 0) {
@@ -925,9 +853,7 @@
 					setTimeout("get_code_time()", 1000);
 				}
 			}
-			
-			
-			//重新获取绑卡验证码
+
 			function get_code() {
 				plus.nativeUI.showWaiting();
 				mui.ajax({
@@ -952,11 +878,10 @@
 					}
 				});
 			}
-			
-			
-			
 			//获取某渠道的费率配置
 			function getpay(id) {
+				var bankid = $('#bankid').val();
+				//console.log(bankid);
 				mui.ajax({
 					type: 'post',
 					url: site_app + '/api/repayment/getpayment',
@@ -964,7 +889,8 @@
 					data: {
 						'token': tokens,
 						'pay_id': id,
-						'type': 2
+						'type': 2,
+						'cid':bankid
 					},
 					dataType: 'json',
 					success: function(e) {
