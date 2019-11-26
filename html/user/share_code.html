@@ -8,6 +8,7 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/share_code.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/share.min.css" />
 		<style type="text/css">
 			#imgOne {
 				width: 100%;
@@ -50,6 +51,15 @@
 				<p>信用卡财务优化专家</p>
 			</div>
 		</div>
+		    <div id="share_box" style="display:none;">
+		        <h1 class="share_title">分享到</h1>
+		        <div class="social-share" data-initialized="true" style="text-align: center;" data-url="http://www.baidu.com?(要分享的链接)"  data-title="要分享的标题（可选）">
+		            <a href="#" class="social-share-icon icon-weibo"></a>
+		            <a href="#" class="social-share-icon icon-wechat"></a>
+		            <a href="#" class="social-share-icon icon-qq"></a>
+		            <a href="#" class="social-share-icon icon-qzone"></a>
+		        </div>
+		    </div>
 		<input type="hidden" id="sharehref" value="" />
 		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/mui.min.js"></script>
@@ -139,7 +149,8 @@
 												$("#sharehref").val(e.url);
 												var qrcode = $('#saveImg').qrcode(e.url).hide();
 												var canvas = qrcode.find('canvas').get(0);
-												$('#imgOne').attr('src', canvas.toDataURL("image/jpg"))
+												// $('#imgOne').attr('src', canvas.toDataURL("image/jpg"))
+												$('#imgOne').attr('src', e.img_url)
 											} else {
 												var btnArray = ['确定'];
 												mui.confirm("请先进行实名认证", '提示', btnArray, function(e) {
@@ -277,6 +288,15 @@
 							})
 						});
 					}
+					// $(".share").click(function(){
+					// 	// alert(11);
+					// 	layer.open({
+					// 	type: 1
+					// 	,content: $('#share_box').html()
+					// 	,anim: 'up'
+					// 	,style: 'position:fixed; bottom:0; left:0; width: 100%; padding:10px 0; border:none;'
+					// 	});
+					// })
 					$(".share").click(function() {
 						var ids = [{
 								id: "weixin",

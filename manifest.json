@@ -1,9 +1,9 @@
 {
-    "id" : "H55A8D7B6",
+    "id" : "H5DFA11EA",
     "name" : "聚牛管家",
     "version" : {
-        "name" : "3.2.2",
-        "code" : 322
+        "name" : "3.2.3",
+        "code" : 323
     },
     "description" : "",
     "icons" : {
@@ -89,9 +89,6 @@
         "Runtime" : {
             "description" : "plus.runtime.*"
         },
-        "Share" : {
-            "description" : "plus.share.*"
-        },
         "Storage" : {
             "description" : "plus.storage.*"
         },
@@ -109,6 +106,9 @@
         }
     },
     "plus" : {
+        "kernel" : {
+            "ios" : "UIWebview" //或者 "WKWebview"  
+        },
         "splashscreen" : {
             "autoclose" : true,
             "waiting" : true,
@@ -165,6 +165,14 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
+            },
+            "plugins" : {
+                "share" : {}
+            },
+            "google" : {
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>"
+                ]
             }
         }
     }
