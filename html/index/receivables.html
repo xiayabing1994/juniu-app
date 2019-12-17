@@ -81,7 +81,7 @@
 						到账卡：
 						<span class="bk_name">--</span>
 					</div>
-					<div class="right">
+					<div class="right" style='display:none'>
 						到账金额：
 						<span class="get_money">￥0.00</span>
 					</div>
@@ -314,9 +314,10 @@
 										"</div> " +
 										"<div class='left' style='margin-left:10px;'>" +
 										"<div class='mode_name'>" + e.data[i].payment_name + "</div>" +
-										"<div style='color:gray' class='mode_info payment_id'>" +
-										"<div class='mode_fl m_l left'>费率:" + num + "%+" + e.rate.rate_close_rate + "元 </div>" +
-										"<div class='mode_time m_r left'>&nbsp;交易时间:" + time + "</div>" +
+										"<div style='color:gray;font-size:13px' class='mode_info payment_id'>" +
+										"<div class='mode_fl m_l left'>" +e.data[i].payment_tip+ " </div>" + 
+										// "<div class='mode_fl m_l left'>费率:" + num + "%+" + e.rate.rate_close_rate + "元 </div>" +
+										// "<div class='mode_time m_r left'>&nbsp;交易时间:" + time + "</div>" +
 										"<div class='clear'></div>" +
 										"</div>" +
 										"<div class='mode_info'>" +
