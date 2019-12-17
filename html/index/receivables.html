@@ -88,9 +88,13 @@
 					<div class="clear"></div>
 				</div>
 			</div>
+			<div class="mode_popups popups">
+				<ul class="mui-table-view mode_lists">
+				</ul>
+			</div>
 			<div class="clear"></div>
 			<button type="button" class="mui-btn mui-btn-blue generate_plan">立即收款</button>
-			<div class="more_mode">
+			<div class="more_mode" style='display:none'>
 				更多收款方式
 				<span class="iconfont icon-mjiantou"></span>
 			</div>
@@ -271,6 +275,76 @@
 						}
 					});
 				})
+				
+				set_payments_list();
+				function set_payments_list(){
+					$(".mode_lists").html("");
+					$(".mode_popups").animate({
+						bottom: "0"
+					});
+					// $(".mengban").show();
+					plus.nativeUI.showWaiting();
+					mui.ajax({
+						type: "post",
+						url: site_app + "/api/payrecords/getpayment",
+						data: {
+							token: tokens,
+							type: "2",
+							cid: $("#pay_cid").val()
+						},
+						dataType: "json",
+						success: function(e) {
+							plus.nativeUI.closeWaiting();
+							if(e.error == 0) {
+								for(var i = 0; i < e.data.length; i++) {
+									var time = e.data[i].paymentst_entime;
+									if(time == 0) {
+										time = "不限制"
+									} else {
+										time = e.data[i].paymentst_entime;
+									}
+									var num = e.rate.rate_rate;
+									num = Number(num).toFixed(2);
+									var ck= i==0 ? 'checked' : '';
+								var li = "<li 	style='background:#fff;margin-bottom:8px;'>" +
+										"<div class='left'>" +
+										"<div class='mui-input-row mui-radio '>" +
+										"<input name='radio' type='radio' "+ck+" data-i='" + i + "' title='" + e.data[i].mcc[0] + "' value='" + e.data[i].payment_id + "' max='" + e.data[i].payment_max_money + "' min='" + e.data[i].payment_min_money + "'>" +
+										"</div> " +
+										"</div> " +
+										"<div class='left' style='margin-left:10px;'>" +
+										"<div class='mode_name'>" + e.data[i].payment_name + "</div>" +
+										"<div style='color:gray' class='mode_info payment_id'>" +
+										"<div class='mode_fl m_l left'>费率:" + num + "%+" + e.rate.rate_close_rate + "元 </div>" +
+										"<div class='mode_time m_r left'>&nbsp;交易时间:" + time + "</div>" +
+										"<div class='clear'></div>" +
+										"</div>" +
+										"<div class='mode_info'>" +
+										// "<div class='mode_db m_l left'>单笔:" + e.data[i].payment_min_money + "~" + e.data[i].payment_max_money + "</div>" +
+										// "<div class='mode_js m_r left'>最大笔数:" + e.data[i].payment_day_num + "</div>" +
+										"<div class='clear'></div>" +
+										"</div>" +
+										"</div>" +
+										"<div class='clear'></div>" +
+										"</li>";
+									$(".mode_lists").append(li);
+								}
+
+							} else {
+								mui.alert(e.msg, '提示', '', '', 'div')
+							}
+						}
+					});
+				}
+
+				
+				
+				
+				
+				
+				
+				
+				
 				/*行业*/
 				$(".industry").click(function() {
 					//					$(".industry_list").html("");
@@ -339,6 +413,8 @@
 						}
 					});
 				});
+				
+				
 				$(".mode_sure").click(function() {
 					if($("input[name='radio']").is(":checked")) {
 						$("#payment_id").val($(".mode_list input[name='radio']:checked").val());
@@ -397,6 +473,8 @@
 						mui.alert('请选择通道', '提示', '', '', 'div')
 					}
 				})
+				
+				
 				$(".industry_sure").click(function() {
 					$("#mcc").val($(".industry_radio input[name='radio']:checked").val());
 					$("#industry").val($("input[name='radio']:checked").attr("title"));
@@ -435,6 +513,8 @@
 						}
 					});
 				});
+				
+				
 				$(".bank_popup ul").on("click", "li", function() {
 					$("#pay_cid").val($(this).attr("title"));
 					var title = $(this).attr("title");
@@ -464,6 +544,7 @@
 							}
 						}
 					});
+					set_payments_list();
 				})
 
 				/*验证码提交*/
@@ -840,6 +921,7 @@
 					var pay_cid = $("#pay_cid").val();
 					var money = $("#money").val();
 					var pay_id = $("#payment_id").val();
+					pay_id=$(".mode_lists input[name='radio']:checked").val();
 					var site = $("#site").val();
 					if(money == "") {
 						mui.alert("请输入收款金额", '提示', '', '', 'div');
