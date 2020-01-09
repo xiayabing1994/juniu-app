@@ -32,11 +32,12 @@
 				</div>
 			</div>
 			<div class="notice">
-				<div class="left icon_gg">
-					<img src="../../img/icon_gg.png" />
-				</div>
+				<!-- <div class="left icon_gg">
+					
+				</div> -->
+				<img class="left icon_gg" src="../../img/icon_gg.png" />
 				<div class="notice_info left">
-					<ul class="notice-txt">
+					<ul class="notice-txt" >
 					</ul>
 				</div>
 				<div class="clear"></div>
@@ -94,7 +95,7 @@
 							<div class="grid_img">
 								<img src="../../img/icon_h_7.png" />
 							</div>
-							<p>专属客服</p>
+							<p>联系售后</p>
 						</li>
 						<li title="8">
 							<div class="grid_img">
@@ -110,7 +111,7 @@
 			<div class="daily">
 				<div class="title"  style="height:45px;border-bottom:1px solid #efeff4;">
 					<div class="left" style="line-height: 40px;">
-						<img src="../../img/icon_gg.png" />
+						<img src="../../img/icon_daily.png" />
 					</div>
 					<div class="right" style="line-height: 45px;">
 						<span class="iconfont icon-mjiantou"></span>
@@ -129,8 +130,6 @@
 					</div>
 				</div>
 			</div>
-
-
 			<div class="tips_popup">
 				<img id="home-tips" src="../../img/home_tips.png" />
 				<span class="tips_close iconfont icon-cuo1"></span>
@@ -234,7 +233,9 @@
 						success: function(data) {
 							if(data.error == 0) {
 								if(data.data.code == 0) {
-									mui.confirm('已有最新版本，是否更新版本！', '温馨提示', ['取消', '升级'], function(e) {
+									var desc=data.data.desc;
+									desc=desc.replace(/\|/g,'\n');
+									mui.confirm(desc, 'V'+data.data.version+'更新提示', ['取消', '升级'], function(e) {
 										if(e.index == 1) {
 											// if(mui.os.ios) {
 												// plus.runtime.openURL(data.data.url);
@@ -368,7 +369,8 @@
 				/*公告文字上下轮播*/
 				var pages = 1;
 				mui.ajax({
-					url: site_app + "/api/My/article",
+					// url: site_app + "/api/My/article",
+					url: site_app + "/api/message/profit_scroll_news",
 					type: "post",
 					data: {
 						token: tokens,
@@ -382,14 +384,14 @@
 							/*顶部滚动信息*/
 							var datas = e.data.data;
 							for(var a = 0; a < datas.length; a++) {
-								var li = "<li title='" + datas[a].article_id + "'>" + datas[a].article_title + "</li>";
+								var li = "<li  title='" + datas[a].article_id + "'>" + datas[a].article_title + "</li>";
 								$(".notice-txt").append(li);
 							}
 						}
 					}
 				});
 				notice($('.notice-txt'));
-				$(".notice-txt").on("click", "li", function() {
+				$(".notice-txt-111111111111111").on("click", "li", function() {
 					var title = $(this).attr("title");
 					mui.openWindow({
 						url: "../user/help_detailed.html",
@@ -448,11 +450,10 @@
 							});
 						}
 						$('.notice-txt').animate({
-							marginTop: -40 * num
+							marginTop: -44 * num
 						}, 400);
 					}, 4000);
 				}
-
 				/*获取用户信息*/
 				mui.ajax({
 					url: site_app + "/api/my/info",
@@ -691,7 +692,7 @@
 							for(var a = 0; a < datas.length; a++) {
 								var html = "<div class='item' data-id='"+datas[a].article_id+"'>";
 								html += "<h1>"+datas[a].article_title+"</h1>";
-								html += "<div class='content'>"+datas[a].article_title+"</div>";
+								// html += "<div class='content'>"+datas[a].article_title+"</div>";
 								html += "</div>";
 								$(".daily_content").prepend(html);
 							}

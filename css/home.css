@@ -45,19 +45,22 @@
 
 .notice {
 	background: #fff;
-	padding: 0 10px;
+	padding: 5px 10px;
+	/* height:62px; */
+	display: flex;
+	align-items: center;
 }
 
 .notice .icon_gg {
 	width: 25%;
-	height: 30px;
-	line-height: 30px;
+	/* height: 60px;
+	line-height: 60px;
 	vertical-align: middle;
-	font-size: 14px;
+	font-size: 28px;
 	color: #0E77EC;
 	margin-top: 5px;
 	border-right: 2px solid #EBEBEB;
-	padding-right: 5px;
+	padding-right: 5px; */
 }
 
 .notice .left img {
@@ -66,22 +69,28 @@
 }
 
 .notice_info {
-	width: 60%;
-	height: 40px;
-	line-height: 40px;
+	/* width: 69%; */
+	flex: 1;
+	height: 44px;
+	/* line-height: 40px; */
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	font-size: 14px;
 	padding: 0 5px;
+	margin-left: 5px;
+	border-left: 2px solid #EBEBEB;
 }
 
 .notice-txt li {
-	line-height: 40px;
-	overflow: hidden;
+	height: 44px;
+	/* padding-top:6px ; */
+	line-height: 22px;
+	width:100%;
+	/* overflow: hidden; */
 	text-overflow: ellipsis;
-	white-space: nowrap;
-	font-size: 13px;
+	white-space: pre-line;
+	font-size: 14px;
 	color: #555555;
 }
 

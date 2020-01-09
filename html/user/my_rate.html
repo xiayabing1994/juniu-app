@@ -8,8 +8,12 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/my_rate.css" />
+		<style>
+			.rate-tip{text-indent:2em;letter-spacing: 0.5px ;padding-left:4px;font-size:17px}
+			.p-rate-tip{text-indent:0.4em;letter-spacing: 0.5px ;padding-left:4px;font-size:15px;color:darkgoldenrod}
+		</style>
 	</head>
-
+        
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<div class="statusbarHeight">&nbsp;</div>
@@ -23,6 +27,7 @@
 					<a class="mui-control-item" href="#item2">还款</a>
 				</div>
 				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+
 				<div class="mui-slider-group">
 					<div id="item1" class="mui-slider-item mui-control-content mui-active">
 
@@ -31,8 +36,11 @@
 
 					</div>
 				</div>
+
 			</div>
+
 		</div>
+
 		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/common.js"></script>
@@ -85,6 +93,16 @@
 									content += '</div>';
 									content += '<div class="clear"></div>';
 									content += '</li>';
+									if(data.tips.shou.length){
+										var shou_tip=data.tips.shou;
+										content +='<p class="quota"></p><p class="p-rate-tip">收款小提示:</p>';
+										for(var si=0;si<shou_tip.length;si++){
+											content +='<p class="rate-tip">';
+											content +=shou_tip[si];
+											content +='</p>';
+										}
+										content +='<br>';
+									}
 								} else {
 									//还款
 									content1 += '<li>';
@@ -105,6 +123,16 @@
 									content1 += '</div>';
 									content1 += '<div class="clear"></div>';
 									content1 += '</li>';
+									if(data.tips.huan.length){
+										var huan_tip=data.tips.huan;
+										content1 +='<p class="quota"></p><p class="p-rate-tip">还款小提示:</p>';
+										for(var si=0;si<huan_tip.length;si++){
+											content1 +='<p class="rate-tip">';
+											content1 +=huan_tip[si];
+											content1 +='</p>';
+										}
+										content1 +='<br>';
+									}
 								}
 
 							}

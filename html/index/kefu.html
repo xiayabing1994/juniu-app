@@ -35,7 +35,36 @@
 			.mui-title {
 				color: #fff!important;
 			}
+			.a-weixin{padding:16px}
 		</style>
+		<script>
+			function copy_fun(copy){//参数copy是要复制的文本内容
+				mui.plusReady(function(){
+					//判断是安卓还是ios
+					if(mui.os.ios){
+						//ios
+						var UIPasteboard = plus.ios.importClass("UIPasteboard");
+						var generalPasteboard = UIPasteboard.generalPasteboard();
+						//设置/获取文本内容:
+						generalPasteboard.plusCallMethod({
+							setValue:copy,
+							forPasteboardType: "public.utf8-plain-text"
+						});
+						generalPasteboard.plusCallMethod({
+							valueForPasteboardType: "public.utf8-plain-text"
+						});
+						mui.toast("已成功复制到剪贴板");
+					}else{
+						//安卓
+						var context = plus.android.importClass("android.content.Context");
+						var main = plus.android.runtimeMainActivity();
+						var clip = main.getSystemService(context.CLIPBOARD_SERVICE);
+						plus.android.invoke(clip,"setText",copy);
+						mui.toast("已成功复制到剪贴板");
+					}
+				});
+			}
+		</script>
 	</head>
 
 	<body>
@@ -47,8 +76,14 @@
 		<div class="mui-content">
 			<div class="kefu-box">
 				<p>400客服电话</p>
-				<h3 class="tel"></h3>
+				<h4 class="tel"></h4>
 				<a class="a-tel mui-btn mui-btn-primary mui-btn-outlined" href="javascript:;">立即拨打</a>
+				<br>
+				<p>微信客服账号:</p>
+			<ul class="mui-table-view">
+
+
+			</ul>
 			</div>
 		</div>
 		<style>
@@ -60,17 +95,18 @@
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+
 			mui.plusReady(function() {
 				mui.init({
 					hardwareAccelerated: true,
 				});
+
 				var StatusbarHeight = plus.navigator.getStatusbarHeight();
 				var headerH = StatusbarHeight+44;
 				$(".statusbarHeight").css("height",StatusbarHeight);
 				$("header").css("height",headerH);
 				$(".mui-content").css("padding-top",headerH);
 				//plus.nativeUI.showWaiting("安全检测中，请等待");
-				
 				var tokens = getToken();
 				getToken();
 				mui.ajax({
@@ -82,13 +118,19 @@
 					dataType: "json",
 					success: function(e) {
 						console.log(e.data);
+						var wxdata=e.wxdata.account;
+						var comment=e.wxdata.comment;
+						for(var i=0;i<wxdata.length;i++){
+							var li='<li class="a-weixin mui-table-view-cell ">账号'+(i+1)+'('+comment[i]+'): '+wxdata[i]+'<span onclick="copy_fun('+wxdata[i]+')" id="'+wxdata[i]+'" class=" mui-badge mui-badge-primary ">点击复制</span></li>';
+							$('.mui-table-view').append(li);
+
+						}
 						if(e.error == 0) {
 							$(".tel").html(e.data);
 							$(".a-tel").attr("href","tel:"+e.data);
 						}
 					}
 				});
-
 				plus.nativeUI.closeWaiting();
 			})
 		</script>
