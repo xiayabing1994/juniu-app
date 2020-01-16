@@ -237,11 +237,15 @@
 									desc=desc.replace(/\|/g,'\n');
 									mui.confirm(desc, 'V'+data.data.version+'更新提示', ['取消', '升级'], function(e) {
 										if(e.index == 1) {
-											// if(mui.os.ios) {
-												// plus.runtime.openURL(data.data.url);
-											// } else {
+											if(mui.os.ios) {
+												if(data.data.type=='safari'){
+													plus.runtime.openURL(data.data.url);
+												}else{
+													downWgt(true, data.data.url);
+												}
+											} else {
 												downWgt(true, data.data.url);
-											// }
+											}
 										}
 									}, 'div');
 								}
