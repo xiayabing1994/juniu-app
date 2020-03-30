@@ -10,12 +10,14 @@ header a {
 }
 .user_info {
 	width: 100%;
-	background: #0072F9;
+	background: #1e1e1e;
 	text-align: center;
-	padding: 20px 0;
+	height:150px;
+	padding: 2px 0;
 }
 .user_info .user_img{
 	position: relative;
+	height:80px;
 	width: 50%;
 	margin: 0 auto;
 }

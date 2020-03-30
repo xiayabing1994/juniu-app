@@ -10,7 +10,18 @@
 		<link rel="stylesheet" type="text/css" href="../../css/user.css" />
 		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_812297_z1nllq4etb.css" />
 	</head>
-
+<style>
+	.item{
+            background-image: linear-gradient(135deg,#27250d,#ab983b);
+            -webkit-background-clip:text;
+            color: transparent;
+        }
+		.item2{
+		        background-image: linear-gradient(135deg,#ab983b,#27250d);
+		        -webkit-background-clip:text;
+		        color: transparent;
+		    }
+</style>
 	<body>
 		<header class="mui-bar mui-bar-nav head_tbg">
 			<div class="statusbarHeight">&nbsp;</div>
@@ -36,10 +47,10 @@
 				</div>
 				<div class="property">
 					<ul>
-						<li>
+<!-- 						<li>
 							<p class="money lj_jf">0</p>
 							<p>累计积分</p>
-						</li>
+						</li> -->
 						<li>
 							<p class="money my_m">￥0.00</p>
 							<p>我的余额</p>
@@ -60,26 +71,19 @@
 					</a>
 				</li>
 			</ul> -->
-			<ul class="mui-table-view user_list">
+
+
+			<ul class="mui-table-view user_list" style='margin-top:12px'>
 				<li class="mui-table-view-cell" title="5">
 					<a class="mui-navigate-right">
 						<img src="../../img/user_3.png" width="7%" />
 						<span class="item">我的分润</span>
 					</a>
 				</li>
-				<!--<li class="mui-table-view-cell" title="6">
-					<a class="mui-navigate-right">
-						<img src="../../img/user_b_3.png" width="7%" />
-						<span class="item">我的优惠劵</span>
-					</a>
-				</li>-->
-			</ul>
-
-			<ul class="mui-table-view user_list">
 				<li class="mui-table-view-cell" title="3">
 					<a class="mui-navigate-right">
 						<img src="../../img/user_2.png" width="7%" />
-						<span class="item">分润明细</span>
+						<span class="item item2">分润明细</span>
 					</a>
 				</li>
 				<li class="mui-table-view-cell" title="7">
@@ -93,7 +97,7 @@
 				<li class="mui-table-view-cell" title="8">
 					<a class="mui-navigate-right">
 						<img src="../../img/user_5.png" width="7%" />
-						<span class="item">我的费率</span>
+						<span class="item item2">我的费率</span>
 					</a>
 				</li>
 				<li class="mui-table-view-cell" title="9">
@@ -115,7 +119,7 @@
 					<a class="mui-navigate-right">
 						<div class="left">
 							<img src="../../img/user_8.png" width="20%" />
-							<span class="item">资料认证</span>
+							<span class="item item2">资料认证</span>
 						</div>
 						<span class="right tips" id="real">未认证</span>
 						<div class="clear"></div>

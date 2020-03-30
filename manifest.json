@@ -1,5 +1,5 @@
 {
-    "id" : "H55A8D7B6",
+    "id" : "H5DFA11EA",
     "name" : "聚牛管家",
     "version" : {
         "name" : "3.3.0",
@@ -114,9 +114,13 @@
             "waiting" : true,
             "delay" : 4000
         },
+		"launchwebview" : {
+		    "statusbar" : {
+		        "background" : "#ffffff"
+		    }
+		},
         "statusbar" : {
-            "immersed" : true,
-            "background" : "#D74B28"
+			"immersed": "true"
         },
         "safearea" : {
             "left" : {
@@ -170,6 +174,7 @@
                 "share" : {}
             },
             "google" : {
+				"ImmersedStatusbar": true,
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
@@ -203,6 +208,7 @@
                 ]
             },
             "apple" : {
+				"UIReserveStatusbarOffset": true,
                 "privacyDescription" : {
                     "NSPhotoLibraryUsageDescription" : "读取相册",
                     "NSPhotoLibraryAddUsageDescription" : "写入相册",
@@ -210,5 +216,6 @@
                 }
             }
         }
-    }
+    },
+    "fullscreen" : true
 }

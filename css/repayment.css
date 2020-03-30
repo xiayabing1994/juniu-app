@@ -114,7 +114,7 @@ header a {
 	height: 24px;
 	line-height: 24px;
 	font-size: 14px;
-	background: #0072F9;
+	background: #1e1e1e;
 	color: #fff;
 	padding: 0 15px;
 	border-radius: 20px;
@@ -204,8 +204,8 @@ header a {
 	left: 50%;
 	width: 90%;
 	margin: 15px 0 15px -45%;
-	background: #0072F9;
-	border: 1px solid #0072F9;
+	background: #1e1e1e;
+	border: 1px solid #1e1e1e;
 	padding: 10px 12px;
 }
 

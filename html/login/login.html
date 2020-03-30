@@ -17,8 +17,11 @@
 			<h1 class="mui-title">密码登录</h1>
 		</header>
 		<div class="mui-content">
+			<style>
+				.logo{width: 25%;margin: 40px auto;}
+			</style>
 			<div class="logo">
-				<img src="../../img/login_bg.png" />
+				<img src="../../img/logo.png" />
 			</div>
 			<form class="mui-input-group login_form">
 				<div class="mui-input-row phone">
@@ -57,7 +60,7 @@
 				<div style="height:70px;">
 					
 				</div>
-				<button type="button" class="mui-btn mui-btn-blue login reg" style="background:#0072F9;">注册</button>
+				<button type="button" class="mui-btn mui-btn-blue login reg" style="background:#1e1e1e;">注册</button>
 			</form>
 		</div>
 		<script src="../../js/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
@@ -80,7 +83,7 @@
 			function input_(value) {
 				if(value.length >= 6) {
 					$(".loginbtn").removeAttr("disabled");
-					$(".loginbtn").css('background-color', '#2DAAFC');
+					$(".loginbtn").css('background-color', '#484852');
 				} else if(value.length < 6) {
 					$(".loginbtn").css('background-color', '#DDDDDD');
 					$(".loginbtn").attr("disabled", true);

@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/share.min.css" />
 		<style type="text/css">
 			#imgOne {
-				width: 100%;
+				margin:0 auto;width:100%;height:420px;
 			}
 		</style>
 	</head>
@@ -24,32 +24,27 @@
 			<!-- <img src="../../img/qrcode_share.png" class="share" /> -->
 		</header>
 		<div class="mui-content">
-			<div class="title">
-				邀请好友,享受更多权益
-			</div>
 
 			<div class="code_info">
-				<div class="user_info">
-					<div class="left img">
-						<img src="../../img/avater_image.png" class="user_img" />
-					</div>
-					<div class="left info">
-						<p class="user_name">姓名</p>
-						<p class="vip_level">钻石会员</p>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div id="saveImg">
-				</div>
-				<img src="" id="imgOne" />
-				<p class="tips">长按二维码复制链接</p>
-				<div class="matching_a"></div>
-				<div class="matching_b"></div>
+	<!-- 			<div id="saveImg">
+					
+				</div> -->
+				<img src="http://app.juniuguanjia.com/uploads/invites/577455.png"   id="imgOne" />
+				<p class="tips" style='text-align:center'>长按二维码保存图片</p>
+
 			</div>
-			<div class="sign">
-				<p>-聚牛-</p>
-				<p>信用卡财务优化专家</p>
+			<div class='pic-list'>
+				<div class='pic-item'><img class='pic-img' src="http://app.juniuguanjia.com/uploads/invites/577455.png" alt=""></div>
+				<div class='pic-item'><img class='pic-img' src="http://app.juniuguanjia.com/uploads/invites/577455.png" alt=""></div>
+				<div class='pic-item'><img class='pic-img' src="http://app.juniuguanjia.com/uploads/invites/577455.png" alt=""></div>
+				<div class='pic-item'><img class='pic-img' src="http://app.juniuguanjia.com/uploads/invites/577455.png" alt=""></div>
 			</div>
+
+
+		</div>
+		<div class="sign">
+			<p>-聚牛-</p>
+			<p>信用卡财务优化专家</p>
 		</div>
 		    <div id="share_box" style="display:none;">
 		        <h1 class="share_title">分享到</h1>
@@ -150,7 +145,8 @@
 												var qrcode = $('#saveImg').qrcode(e.url).hide();
 												var canvas = qrcode.find('canvas').get(0);
 												// $('#imgOne').attr('src', canvas.toDataURL("image/jpg"))
-												$('#imgOne').attr('src', e.img_url)
+												// $('#imgOne').attr('src', e.img_url)
+												$('#imgOne').attr('src','http://app.juniuguanjia.com/uploads/invites/577455.jpg');
 											} else {
 												var btnArray = ['确定'];
 												mui.confirm("请先进行实名认证", '提示', btnArray, function(e) {

@@ -20,7 +20,7 @@
 			<div class="user_info" style="display: ;">
 				<div class="user_img">
 					<img src="../../img/agent_common_big_icon.png" id="user_img" />
-					<p class="type_name"></p>
+					<!-- <p class="type_name"></p> -->
 				</div>
 			</div>			
 			<div class="mui-slider">
@@ -147,14 +147,14 @@
 										
 										var gallery = mui('.mui-slider');
 										gallery.slider();
-										
-										if(data.data.user_type_id == 1) {
-											$("#user_img").attr("src", "../../img/agent_common_big_icon.png");
-										} else if(data.data.user_type_id == 5) {
-											$("#user_img").attr("src", "../../img/agent_diamond_big_icon.png");
-										}else{
-											$("#user_img").attr("src", "../../img/agent_gold_big_icon.png");
-										}
+										$("#user_img").attr("src", data.data.type_img);
+										// if(data.data.user_type_id == 1) {
+										// 	$("#user_img").attr("src", "../../img/agent_common_big_icon.png");
+										// } else if(data.data.user_type_id == 5) {
+										// 	$("#user_img").attr("src", "../../img/agent_diamond_big_icon.png");
+										// }else{
+										// 	$("#user_img").attr("src", "../../img/agent_gold_big_icon.png");
+										// }
 										$(".mui-slider-group #btn"+data.data.user_type_id).hide();
 										//获取会员升级支付渠道
 										mui.ajax({
@@ -192,7 +192,7 @@
 								}
 							});
 							
-							$(".type_name").html(data.data.type_name);
+							// $(".type_name").html(data.data.type_name);
 							if(data.data.user_isactivation == 0) {} else {
 								mui.alert('请激活账户', '提示', '', function() {
 									mui.openWindow({
